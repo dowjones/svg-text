@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="cache-control" content="max-age=0" />
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="expires" content="0" />
+  <meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+  <meta http-equiv="pragma" content="no-cache" />
+
+  <title>SvgText demo</title>
+  <style>
+  body {
+    background-color: #f5f5f5;
+    font-family: Helvetica, Arial, sans-serif;
+  }
+  form.options > * {
+    display: block;
+    margin: 10px 0;
+  }
+  pre {
+    background-color: white;
+    width: 640px;
+  }
+  svg {
+    background-color: white;
+  }
+  svg text {
+    font-family: Helvetica, Arial, sans-serif;
+  }
+  </style>
+</head>
+<body>
+  <svg width="640" height="200">
+    <style></style>
+  </svg>
+
+  <form class="options">
+    <textarea type="text" name="text" rows="5" cols="40" placeholder="Enter some text to display...">Lorem ipsum dolor sit amet, <tspan fill="red"><a href="#" fill="blue">consectetur adipiscing</a> elit.</tspan> Donec finibus ultrices odio, sed congue massa aliquam vel. Integer vel neque et nunc cursus sagittis at sit amet lectus.</textarea>
+    <div class="x">
+      <label><label><input type="checkbox"> x:</label>
+      <input type="number" value="300" min="0" max="640">
+    </div>
+    <div class="y">
+      <label><input type="checkbox"> y:</label>
+      <input type="number" value="100" min="0" max="200">
+    </div>
+    <div class="width">
+      <label><label><input type="checkbox" checked> width:</label>
+      <input type="number" value="300" min="0" max="640">
+    </div>
+    <div class="height">
+      <label><input type="checkbox"> height:</label>
+      <input type="number" value="100" min="0" max="200">
+    </div>
+    <div class="maxWidth">
+      <label><input type="checkbox"> maxWidth:</label>
+      <input type="number" value="300" min="0" max="640">
+    </div>
+    <div class="maxHeight">
+      <label><input type="checkbox"> maxHeight:</label>
+      <input type="number" value="100" min="0" max="200">
+    </div>
+    <div class="outerWidth">
+      <label><input type="checkbox"> outerWidth:</label>
+      <input type="number" value="300" min="0" max="640">
+    </div>
+    <div class="outerHeight">
+      <label><input type="checkbox"> outerHeight:</label>
+      <input type="number" value="100" min="0" max="200">
+    </div>
+    <div class="maxLines">
+      <label><input type="checkbox" checked> maxLines:</label>
+      <input type="number" value="3" min="0" max="100">
+    </div>
+    <div class="margin">
+      <label><input type="checkbox"> margin:</label>
+      <input type="text" value="10px">
+    </div>
+    <div class="padding">
+      <label><input type="checkbox"> padding:</label>
+      <input type="text" value="10px">
+    </div>
+    <div class="textOverflow">
+      <label><input type="checkbox" checked> textOverflow:</label>
+      <input type="text" value="ellipsis">
+    </div>
+    <div class="align">
+      <label><input type="checkbox"> align:</label>
+      <input type="text" value="left">
+    </div>
+    <div class="verticalAlign">
+      <label><input type="checkbox"> verticalAlign:</label>
+      <input type="text" value="top">
+    </div>
+    <p>Also:
+    <pre>{
+  rect: { fill: '#ff9' },
+  style: { fill: '#333' },
+  selectorNamespace: 'svg',
+  className: 'demo',
+}</pre>
+    </p>
+    <p>
+      <button class="reset">Reset</button>
+      <button class="submit">Write text</button>
+    </p>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="dist/svg-text.js"></script>
+  <script>
+  SvgText = SvgText.default;
+  var svg = document.querySelector('svg');
+  var style = svg.querySelector('style');
+  var text;
+
+  function renderText(options) {
+    destroyText();
+    // console.log('options:', options);
+    text = new SvgText(options);
+  }
+
+  function destroyText() {
+    if (text) {
+      text.text.parentElement.removeChild(text.text);
+      if (text.rect) {
+        text.rect.parentElement.removeChild(text.rect);
+      }
+      text = null;
+    }
+    style.innerHTML = '';
+  }
+
+  function submitOptions() {
+    var options = {
+      element: svg,
+      id: 'hello',
+      text: $('form.options textarea[name="text"]').val(),
+      rect: {
+        fill: '#ff9',
+      },
+      style: {
+        fill: '#333',
+      },
+      selectorNamespace: 'svg',
+      className: 'demo',
+      styleElement: style,
+    };
+    $('form.options > div').each(function (index, el) {
+      var $el = $(el);
+      var enabled = $el.find('input[type="checkbox"]').prop('checked');
+      if (enabled) {
+        var $num = $el.find('input[type="number"]');
+        var $txt = $el.find('input[type="text"]');
+        if ($num.length) {
+          options[$el.attr('class')] = +$num.val();
+        } else if ($txt.length) {
+          options[$el.attr('class')] = $txt.val();
+        }
+      }
+    });
+    localStorage.setItem('options', JSON.stringify(options));
+    renderText(options);
+  }
+
+  function restoreOptions() {
+    var options = localStorage.getItem('options');
+    if (options) {
+      options = JSON.parse(options);
+      var keys = Object.keys(options);
+      var div;
+      Object.keys(options).forEach(key => {
+        switch (key) {
+          case 'text':
+            $('.options textarea[name="text"]').text(options.text);
+            break;
+          case 'margin':
+          case 'padding':
+          case 'textOverflow':
+          case 'align':
+          case 'verticalAlign':
+            $div = $('.options div.' + key);
+            $div.find('input[type="checkbox"]').prop('checked', true);
+            $div.find('input[type="text"]').val(options[key]);
+            break;
+          case 'x':
+          case 'y':
+          case 'width':
+          case 'height':
+          case 'maxWidth':
+          case 'maxHeight':
+          case 'outerWidth':
+          case 'outerHeight':
+          case 'maxLines':
+            $div = $('.options div.' + key);
+            $div.find('input[type="checkbox"]').prop('checked', true);
+            $div.find('input[type="number"]').val(options[key]);
+            break;
+        }
+      })
+    }
+  }
+
+  function resetOptions() {
+    localStorage.removeItem('options');
+    $('form.options')[0].reset();
+    location.reload();
+  }
+
+  $(function () {
+    $('form.options, form.options input, form.options textarea').keypress(function (event) {
+      if (event.which === 13) {
+        submitOptions();
+        event.preventDefault();
+      }
+    });
+    $('form.options input, form.options textarea').on('blur', submitOptions);
+    $('form.options button.submit, form.options input').on('click', submitOptions);
+    $('form.options button.reset').on('click', resetOptions);
+    restoreOptions();
+    submitOptions();
+  });
+  </script>
+</body>
+</html>

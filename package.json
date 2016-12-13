@@ -1,0 +1,40 @@
+{
+  "name": "svg-text",
+  "version": "0.3.3",
+  "description": "Utilities for working with SVG, including SvgText for multiline text.",
+  "main": "./dist/svg-text.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.dowjones.net:lafonda/svg-text.git"
+  },
+  "keywords": [
+    "svg",
+    "text"
+  ],
+  "author": "Adrian Lafond <adrian.lafond@dowjones.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.18.0",
+    "babel-jest": "^16.0.0",
+    "babel-loader": "^6.2.5",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.18.0",
+    "jest": "^16.0.2",
+    "jshint": "^2.9.4",
+    "jshint-loader": "^0.8.3",
+    "json-loader": "^0.5.4",
+    "lodash.assign": "^4.2.0",
+    "lodash.isfinite": "^3.3.2",
+    "lodash.merge": "^4.6.0",
+    "webpack": "^1.13.2"
+  },
+  "jest": {
+    "testRegex": "(/spec/.*|\\.(test|spec))\\.(spec.js|js|json|jsx|node)$"
+  },
+  "publishConfig": {
+    "registry": "http://registry.npm.wsjfdev.dowjones.net/"
+  }
+}
