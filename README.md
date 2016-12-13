@@ -1,7 +1,7 @@
 # SvgText
 Creates multiline SVG `<text>` elements. Can be used on its own, but it is designed primarily for use as a tool within projects that use JavaScript to render or manipulate SVG.
 
-<a href="https://github.dowjones.net/pages/lafonda/svg-text/">View a demo.</a>
+<a href="https://github.com/pages/dowjones/svg-text/">View a demo.</a>
 
 Quick example:
 ```
