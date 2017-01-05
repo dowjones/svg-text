@@ -110,7 +110,6 @@
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
   <script src="dist/svg-text.js"></script>
   <script>
-  console.log(SvgText.SvgUtil);
   SvgText = SvgText.default;
   var svg = document.querySelector('svg');
   var style = svg.querySelector('style');
@@ -169,9 +168,8 @@
     var options = localStorage.getItem('options');
     if (options) {
       options = JSON.parse(options);
-      var keys = Object.keys(options);
-      var div;
-      Object.keys(options).forEach(key => {
+      var $div;
+      Object.keys(options).forEach(function (key) {
         switch (key) {
           case 'text':
             $('.options textarea[name="text"]').text(options.text);
@@ -199,7 +197,7 @@
             $div.find('input[type="number"]').val(options[key]);
             break;
         }
-      })
+      });
     }
   }
 
