@@ -22,13 +22,13 @@ console.log(text.text);// Reference to the SVG <text> element
 
 ## Installation
 To import into a client-side that is compiled with Webpack or another module bundling tool:
-```js
+```
 npm install svg-text --save
-```js
+```
 ```js
 import SvgText from 'svg-text';
 const text = new SvgText({options});
-```js
+```
 It can also be used directly in the browser, in which case it will be available as `window.SvgText.default`:
 ```js
 <script src="svg-text.js"></script>
@@ -36,21 +36,21 @@ It can also be used directly in the browser, in which case it will be available 
 var SvgText = SvgText.default;
 var text = new SvgText(options);
 </script>
-```js
+```
 
 ## Compiling and testing
 Compiling and testing are both enabled from the command line. To compile:
-```js
+```
 webpack
-```js
+```
 or:
-```js
+```
 webpack --watch
-```js
+```
 To run unit tests:
-```js
+```
 npm run test
-```js
+```
 
 ## SvgText: options
 SvgText must be instantiated with an options object as a parameter. This options object has two mandatory properties (`text` and `element`) and many optional properties.
@@ -87,37 +87,37 @@ SvgText must be instantiated with an options object as a parameter. This options
 ```js
 options.textOverflow = 'ellipsis';
 options.textOverflow = ' »';
-```js
+```
 
 ### selectorNamespace
 `string` An optional selector that will be prefixed to all style selectors to serve as a namespace so that custom styling will apply only to a specific scope. Example:
 ```js
 options.selectorNamespace = 'svg#mySvg';
-```js
+```
 
 ### className
 `string` An optional class name to attach to the `text` element. This will be used for custom styling.
 ```js
 options.className = 'demo';
-```js
+```
 
 ### style
 `object` Custom styles to apply to the `text` element. Note that because the `text` element is an SVG and not an HTML element, "fill" and not "color" is the correct property to use to color text. Example:
 ```js
 options.style = { fill: 'red', font-family: 'serif', };
-```js
+```
 
 ### styleElement
 `HTMLElement` A `style` element into which custom styles will be written. Mandatory if custom styling is intended. Example:
 ```js
 options.style = document.querySelector('svg#mySvg style');
-```js
+```
 
 ### attrs
 `object` Attributes to attach to the `text` element. Example:
 ```js
 options.attrs = { 'data-foo': 'bar' };
-```js
+```
 
 ### rect
 `object` Attributes to attach to a background `rect` element. If not specified, no `rect` will be drawn. If "x" or "y" is defined, then these values will be added to the SvgText instance's x and y values. In other words, rect.x or rect.y will be treated as offsets or relative positioning values. If "width" or "height" are defined, these values will override any width or height set by the SvgText instance. Example:
@@ -128,7 +128,7 @@ options.rect = {
   ry: 10,
   x: 15
 };
-```js
+```
 
 ### padding
 `number|string` An optional value that will add space *inside* of a background `rect` or `text` (if no `rect` is drawn). Examples:
@@ -136,7 +136,7 @@ options.rect = {
 options.padding = 10;
 options.padding = '15 20';
 options.padding = '10px 5px 15px 20px';
-```js
+```
 
 ### margin
 `number|string` An optional value that will add space *outside* of a background `rect` or `text` (if no `rect` is drawn). Examples:
@@ -144,7 +144,7 @@ options.padding = '10px 5px 15px 20px';
 options.margin = 10;
 options.margin = '15 20';
 options.margin = '10px 5px 15px 20px';
-```js
+```
 
 ## SvgText.forIllustrator()
 A static method that prepares a `text` element for opening in Adobe Illustrator (tested in CS6 and CS2014), with the correct font, weight, style, etc. It takes three arguments:
@@ -168,23 +168,89 @@ const el2 = svgForAi.querySelector(`text[ai-id="${text.uid}"]`);
 SvgText.forIllustrator(el1, el2, 'Helvetica-Bold');
 // Now `svgForAi` can be opened in Illustrator and the text element will render
 // correctly with Helvetica Bold.
-```js
+```
 
 ## SvgUtil: methods
 Utility methods used by SvgText and exposed because they may be useful in other contexts. To import into a project build with modules:
 ```js
 import { SvgUtil } from 'svg-text';
-```js
+```
 To use directly in a web browser:
 ```js
 <script src="svg-text.js"></script>
 <script>
 var SvgUtil = SvgText.SvgUtil;
-var minNum = SvgUtil.isHyphen(value);
+var prop = SvgUtil.toJs('font-size'));
 </script>
-```js
+```
 
-*TODO: Complete documentation for SvgUtil!*
+### toJs(prop)
+Converts a CSS-style property name to a JavaScript-compatible property name. Example:
+```js
+const prop = SvgUtil.toJs('font-size');
+console.log(prop); // 'fontSize'
+```
+
+### toCss(prop)
+Converts a JavaScript-compatible property name to a CSS-style property name. Example:
+```js
+const prop = SvgUtil.toCss('fontSize');
+console.log(prop); // 'font-size'
+```
+
+### normalizeKeys(object, style)
+Copies an object and returns the copy with keys transformed to the desired style, either 'js' or 'css'. Default style is 'css'. In addition, it adds 'px' to the values of `font-size` and `line-height` and properties if the original values are raw numbers.
+```js
+const obj = { 'font-size': '12', 'background-color': 'red' };
+const a = SvgUtil.normalizeKeys(obj, 'js');
+console.log(a); // { fontSize: '12px', backgroundColor: 'red' }
+const b = SvgUtil.normalizeKeys(a);
+console.log(b); // { 'font-size': '12px', 'background-color': 'red' }
+```
+
+### createElement(name, attrs)
+Creates an SVG element with the namespace `http://www.w3.org/2000/svg`. Example:
+```js
+const attrs = { width: 100, height: 100, rx: 5, ry: 5 };
+const el = SvgUtil.createElement('rect', attrs);
+// <rect width="100" height="100" rx="5" ry="5"/>
+```
+
+### isPosNum(value)
+Returns `true` is value is both a number (not `NaN`) and is >= 0.
+
+### minNum(arguments)
+Returns the minimum numeric value amongst the arguments, or else "auto".
+```js
+console.log(SvgUtil.minNum(5, 10, -10)) // 5
+console.log(SvgUtil.minNum(-5, -10)) // 'auto'
+```
+
+### maxNum(arguments)
+Returns the maximum numeric value amongst the arguments, or else "auto".
+```js
+console.log(SvgUtil.minNum(5, 10, -10)) // 10
+console.log(SvgUtil.minNum(-5, -10)) // 'auto'
+```
+
+### autoNum(value, altNum)
+If value is not a positive number, returns altNum instead.
+```js
+console.log(SvgUtil.autoNum('auto', 5)); // 5
+console.log(SvgUtil.autoNum(10, 5)); // 10
+console.log(SvgUtil.autoNum(-5, 5)); // 5
+```
+
+### toArrayLen4(value)
+Transforms value into an array with 4 numbers.
+```js
+console.log(SvgUtil.toArrayLen4(10));               // [10, 10, 10, 10]
+console.log(SvgUtil.toArrayLen4(undefined));        // [0, 0, 0, 0]
+console.log(SvgUtil.toArrayLen4(null));             // [0, 0, 0, 0]
+console.log(SvgUtil.toArrayLen4('10px 20px'));      // [10, 20, 10, 20]
+console.log(SvgUtil.toArrayLen4("10% 20rem"));      // [10, 20, 10, 20]
+console.log(SvgUtil.toArrayLen4("10px 20px 15px")); // [10, 20, 15, 20]
+```
 
 ## Future plans
 - Add support for right-to-left languages.
