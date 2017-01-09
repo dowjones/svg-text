@@ -93,14 +93,6 @@
       <label><input type="checkbox"> verticalAlign:</label>
       <input type="text" value="top">
     </div>
-    <p>Also:
-    <pre>{
-  rect: { fill: '#ff9' },
-  style: { fill: '#333' },
-  selectorNamespace: 'svg',
-  className: 'demo',
-}</pre>
-    </p>
     <p>
       <button class="reset">Reset</button>
       <button class="submit">Write text</button>
@@ -168,9 +160,8 @@
     var options = localStorage.getItem('options');
     if (options) {
       options = JSON.parse(options);
-      var keys = Object.keys(options);
-      var div;
-      Object.keys(options).forEach(key => {
+      var $div;
+      Object.keys(options).forEach(function (key) {
         switch (key) {
           case 'text':
             $('.options textarea[name="text"]').text(options.text);
@@ -198,7 +189,7 @@
             $div.find('input[type="number"]').val(options[key]);
             break;
         }
-      })
+      });
     }
   }
 
