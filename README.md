@@ -18,7 +18,7 @@ const text = new SvgText({
 console.log(text.bounds);// { x: 0, y: 0, width: 100, height: 20 }
 console.log(text.lines);// 2
 console.log(text.text);// Reference to the SVG <text> element
-```js
+```
 
 ## Installation
 To import into a client-side that is compiled with Webpack or another module bundling tool:
