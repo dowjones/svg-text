@@ -1,5 +1,5 @@
 # SvgText
-Creates multiline SVG `<text>` elements. Can be used on its own, but it is designed primarily for use as a tool within projects that use JavaScript to render or manipulate SVG.
+A JavaScript library for creating multiline SVG `<text>` elements. Works seamlessly alongside SVG manipulation libraries such as Snap.svg and D3.
 
 <a href="https://dowjones.github.io/svg-text/">View a demo.</a>
 
@@ -251,6 +251,10 @@ console.log(SvgUtil.toArrayLen4('10px 20px'));      // [10, 20, 10, 20]
 console.log(SvgUtil.toArrayLen4("10% 20rem"));      // [10, 20, 10, 20]
 console.log(SvgUtil.toArrayLen4("10px 20px 15px")); // [10, 20, 15, 20]
 ```
+
+## Version History
+### v0.4.0
+Initial release.
 
 ## Future plans
 - Add support for right-to-left languages.
