@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.dowjones.net:lafonda/svg-text.git"
+    "url": "git@github.com:dowjones/svg-text.git"
   },
   "keywords": [
     "svg",
@@ -35,6 +35,6 @@
     "testRegex": "(/spec/.*|\\.(test|spec))\\.(spec.js|js|json|jsx|node)$"
   },
   "publishConfig": {
-    "registry": "http://registry.npm.wsjfdev.dowjones.net/"
+    "registry": "https://registry.npmjs.com/"
   }
 }
