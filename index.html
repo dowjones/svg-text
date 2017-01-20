@@ -32,7 +32,7 @@
 </head>
 <body>
   <svg width="640" height="200">
-    <style></style>
+    <g class="container"/>
   </svg>
 
   <form class="options">
@@ -103,8 +103,8 @@
   <script src="dist/svg-text.js"></script>
   <script>
   SvgText = SvgText.default;
-  var svg = document.querySelector('svg');
-  var style = svg.querySelector('style');
+  // var svg = document.querySelector('svg');
+  // var style = svg.querySelector('style');
   var text;
 
   function renderText(options) {
@@ -121,12 +121,12 @@
       }
       text = null;
     }
-    style.innerHTML = '';
+    // style.innerHTML = '';
   }
 
   function submitOptions() {
     var options = {
-      element: svg,
+      element: document.querySelector('svg g.container'),
       id: 'hello',
       text: $('form.options textarea[name="text"]').val(),
       rect: {
@@ -135,9 +135,9 @@
       style: {
         fill: '#333',
       },
-      selectorNamespace: 'svg',
-      className: 'demo',
-      styleElement: style,
+      // selectorNamespace: 'svg',
+      // className: 'demo',
+      // styleElement: style,
     };
     $('form.options > div').each(function (index, el) {
       var $el = $(el);

@@ -1,4 +1,4 @@
-/*! svg-text v0.3.3 */
+/*! svg-text v0.4.0 */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -133,6 +133,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	var _svgEl = null;
+	var _styleEl = null;
+
 	var SvgText = function () {
 	  /**
 	   * @construtor
@@ -204,6 +207,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	      textAi.removeAttribute('class');
 	      return textAi;
 	    }
+	  }, {
+	    key: 'svg',
+	    set: function set(value) {
+	      _svgEl = value;
+	    },
+	    get: function get() {
+	      return _svgEl;
+	    }
+	  }, {
+	    key: 'style',
+	    set: function set(value) {
+	      _styleEl = value;
+	    },
+	    get: function get() {
+	      return _styleEl;
+	    }
 	  }]);
 
 	  return SvgText;
@@ -213,13 +232,58 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	function updateOptions(options) {
-	  options = (0, _math.updateSizeOptions)(options);
 	  options.uid = uid();
-	  options.className = options.className ? options.className.split(' ')[0] : null;
-	  if (options.className) {
-	    options.className += ' ' + options.className + '-' + options.uid;
-	  }
+	  options = updateEnvironment(options);
+	  options = updateClassname(options);
+	  options = (0, _math.updateSizeOptions)(options);
 	  options.attrs = options.attrs && _typeof(options.attrs) === 'object' ? (0, _keys.normalizeKeys)(options.attrs, 'css') : {};
+	  return options;
+	}
+
+	// Ensure svg, selectorNamespace, and style properties are set.
+	function updateEnvironment(options) {
+	  options.svg = options.svg || _svgEl || null;
+	  options.styleElement = options.styleElement || _styleEl || null;
+	  var svgEl = options.element || document.body;
+	  while (svgEl && svgEl.nodeName.toUpperCase() !== 'SVG') {
+	    svgEl = svgEl.parentElement;
+	  }
+	  svgEl = svgEl || document.body;
+	  if (svgEl.nodeName.toUpperCase() !== 'SVG') {
+	    svgEl = (0, _svg.createElement)('svg', {
+	      width: 640, height: 480, 'data-svgtext': getSvgUid()
+	    });
+	    (options.element || document.body).appendChild(svgEl);
+	  }
+	  options.svg = svgEl;
+	  if (!options.svg.hasAttribute('data-svgtext')) {
+	    options.svg.setAttribute('data-svgtext', getSvgUid());
+	  }
+	  if (!options.selectorNamespace || typeof options.selectorNamespace !== 'string') {
+	    options.selectorNamespace = 'svg[data-svgtext="' + options.svg.getAttribute('data-svgtext') + '"]';
+	  }
+	  options.styleElement = options.styleElement || options.svg.querySelector('style');
+	  if (!options.styleElement) {
+	    options.styleElement = document.createElement('style');
+	    var firstChild = options.svg.childNodes[0];
+	    if (firstChild) {
+	      options.svg.insertBefore(options.styleElement, firstChild);
+	    } else {
+	      options.svg.appendChild(options.styleElement);
+	    }
+	  }
+	  options.element = options.element || options.svg;
+	  _svgEl = options.svg;
+	  _styleEl = options.styleElement;
+	  return options;
+	}
+
+	// Set default className to 'svg-text svg-text-[uid]'.
+	function updateClassname(options) {
+	  if (!options.className || typeof options.className !== 'string') {
+	    options.className = 'svg-text';
+	  }
+	  options.className += '.' + options.className.split(' ')[0] + '-' + options.uid;
 	  return options;
 	}
 
@@ -323,6 +387,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	var __uid = 0;
 	function uid() {
 	  return __uid++;
+	}
+
+	function getSvgUid() {
+	  var maxId = 0;
+	  var svgEls = document.querySelectorAll('svg[data-svgtext]');
+	  for (var i = 0; i < svgEls.length; i++) {
+	    var id = +svgEls.getAttribute('data-svgtext');
+	    maxId = isNaN(id) ? maxId : Math.max(id, maxId);
+	  }
+	  return maxId + 1;
 	}
 
 /***/ },

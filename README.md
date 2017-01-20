@@ -53,13 +53,16 @@ npm run test
 ```
 
 ## SvgText: options
-SvgText must be instantiated with an options object as a parameter. This options object has two mandatory properties (`text` and `element`) and many optional properties.
+SvgText must be instantiated with an options object as a parameter. This options object has one property that is mandatory: `text`.
 
 ### text
 `string` The text to render into the `text` element.
 
 ### element
-`SVG element` The element that the `text` element will be appended to.
+`SVG element` The element that the `text` element will be appended to. If not set, `svg` element will be used.
+
+### svg
+`SVG element` If not set, it will be created and appended to `document.body`. It used as a container for the `text` and `style` elements and for namespacing.
 
 ### x|y
 `number` Defaults to `0` for both properties.
@@ -90,13 +93,13 @@ options.textOverflow = ' »';
 ```
 
 ### selectorNamespace
-`string` An optional selector that will be prefixed to all style selectors to serve as a namespace so that custom styling will apply only to a specific scope. Example:
+`string` An optional selector that will be prefixed to all style selectors to serve as a namespace so that custom styling will apply only to a specific scope. Default is "svg[data-svgtext="[unique id]"]", where "unique id" is set automatically by SvgText. Example:
 ```js
 options.selectorNamespace = 'svg#mySvg';
 ```
 
 ### className
-`string` An optional class name to attach to the `text` element. This will be used for custom styling.
+`string` An optional class name to attach to the `text` element. This will be used for custom styling. Default is "svg-text".
 ```js
 options.className = 'demo';
 ```
@@ -108,7 +111,7 @@ options.style = { fill: 'red', font-family: 'serif', };
 ```
 
 ### styleElement
-`HTMLElement` A `style` element into which custom styles will be written. Mandatory if custom styling is intended. Example:
+`HTMLElement` A `style` element into which custom styles will be written. By default, SvgText will use the first `style` element found inside a container `svg` or, if no `style` element exists, create one. Example:
 ```js
 options.style = document.querySelector('svg#mySvg style');
 ```
@@ -255,6 +258,8 @@ console.log(SvgUtil.toArrayLen4("10px 20px 15px")); // [10, 20, 15, 20]
 ## Version History
 ### v0.4.0
 Initial release.
+### v0.4.1
+Simplify style options and add an optional option: "svg".
 
 ## Future plans
 - Add support for right-to-left languages.
