@@ -264,3 +264,5 @@ Simplify style options and add an optional option: "svg".
 ## Future plans
 - Add support for right-to-left languages.
 - Implement unit testing on all applicable code.
+
+Special thanks to Elliot Bentley for a ton of great feedback.
