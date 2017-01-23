@@ -260,6 +260,8 @@ console.log(SvgUtil.toArrayLen4("10px 20px 15px")); // [10, 20, 15, 20]
 Initial release.
 ### v0.4.1
 Simplify style options and add an optional option: "svg".
+### v0.4.2
+Fix bug when writing className to the `text` element.
 
 ## Future plans
 - Add support for right-to-left languages.
