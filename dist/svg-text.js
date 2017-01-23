@@ -1,4 +1,4 @@
-/*! svg-text v0.4.0 */
+/*! svg-text v0.4.1 */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -299,7 +299,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var textOptions = (0, _keys.normalizeKeys)((0, _lodash4.default)({}, options.attrs, { 'ai-id': options.uid }));
 	  var text = (0, _svg.createElement)('text', textOptions);
 	  if (options.className) {
-	    text.setAttribute('class', options.className);
+	    text.setAttribute('class', options.className.replace(/\./, ' '));
 	  }
 	  options.element.appendChild(text);
 	  return text;

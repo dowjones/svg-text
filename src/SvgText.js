@@ -169,7 +169,7 @@ function createText(options) {
     { 'ai-id': options.uid }));
   const text = createElement('text', textOptions);
   if (options.className) {
-    text.setAttribute('class', options.className);
+    text.setAttribute('class', options.className.replace(/\./, ' '));
   }
   options.element.appendChild(text);
   return text;
