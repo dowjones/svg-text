@@ -1,4 +1,4 @@
-/*! svg-text v0.4.1 */
+/*! svg-text v0.4.2 */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -260,7 +260,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    options.svg.setAttribute('data-svgtext', getSvgUid());
 	  }
 	  if (!options.selectorNamespace || typeof options.selectorNamespace !== 'string') {
-	    options.selectorNamespace = 'svg[data-svgtext="' + options.svg.getAttribute('data-svgtext') + '"]';
+	    var svgId = options.svg.getAttribute('id');
+	    if (svgId) {
+	      options.selectorNamespace = 'svg#' + svgId;
+	    } else {
+	      var svgAttr = options.svg.getAttribute('data-svgtext');
+	      options.selectorNamespace = 'svg[data-svgtext="' + svgAttr + '"]';
+	    }
 	  }
 	  options.styleElement = options.styleElement || options.svg.querySelector('style');
 	  if (!options.styleElement) {

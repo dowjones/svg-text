@@ -129,7 +129,13 @@ function updateEnvironment(options) {
     options.svg.setAttribute('data-svgtext', getSvgUid());
   }
   if (!options.selectorNamespace || typeof options.selectorNamespace !== 'string') {
-    options.selectorNamespace = `svg[data-svgtext="${options.svg.getAttribute('data-svgtext')}"]`;
+    const svgId = options.svg.getAttribute('id');
+    if (svgId) {
+      options.selectorNamespace = `svg#${svgId}`;
+    } else {
+      const svgAttr = options.svg.getAttribute('data-svgtext');
+      options.selectorNamespace = `svg[data-svgtext="${svgAttr}"]`;
+    }
   }
   options.styleElement = options.styleElement || options.svg.querySelector('style');
   if (!options.styleElement) {

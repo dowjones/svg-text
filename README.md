@@ -262,6 +262,8 @@ Initial release.
 Simplify style options and add an optional option: "svg".
 ### v0.4.2
 Fix bug when writing className to the `text` element.
+### v0.4.3
+For selectorNamespace, use `id` if present before `data-svgtext`.
 
 ## Future plans
 - Add support for right-to-left languages.
