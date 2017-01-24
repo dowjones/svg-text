@@ -1,4 +1,4 @@
-/*! svg-text v0.4.2 */
+/*! svg-text v0.4.3 */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -206,6 +206,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      textAi.setAttribute('fill-opacity', compStyle.getPropertyValue('fill-opacity'));
 	      textAi.removeAttribute('class');
 	      return textAi;
+	    }
+	  }, {
+	    key: 'writeStyle',
+	    value: function writeStyle(selector, css, style) {
+	      var styleEl = style || SvgText.style || null;
+	      if (styleEl) {
+	        (0, _style.writeStyle)(selector, css, styleEl);
+	      }
 	    }
 	  }, {
 	    key: 'svg',

@@ -97,6 +97,13 @@ export default class SvgText {
   static get style() {
     return _styleEl;
   }
+
+  static writeStyle(selector, css, style) {
+    const styleEl = style || SvgText.style || null;
+    if (styleEl) {
+      writeStyle(selector, css, styleEl);
+    }
+  }
 }
 
 function updateOptions(options) {

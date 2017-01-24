@@ -149,8 +149,34 @@ options.margin = '15 20';
 options.margin = '10px 5px 15px 20px';
 ```
 
-## SvgText.forIllustrator()
-A static method that prepares a `text` element for opening in Adobe Illustrator (tested in CS6 and CS2014), with the correct font, weight, style, etc. It takes three arguments:
+## SvgText static properties
+
+### svg
+Read/write. The container `svg` element into which SvgText instances will be appended and in which a `style` element will be found or created if one is not explicitly defined.
+
+### style
+Read/write. The `style` element into which styles for SvgText instances will be written.
+
+## SvgText static methods
+
+### writeStyle(selector, css, style)
+Writes CSS styles into a `style` element. It takes two mandatory arguments and one options argument:
+- `selector` The CSS selector.
+- `css` A JavaScript object of styles to write.
+- `style` The `style` element to write the styles into. If not defined, the value of `SvgText.style` will be used.
+Example:
+```js
+SvgText.writeStyle('text#myText', { fill: 'red' });
+```
+Result:
+```css
+<style>
+text#myText { fill: red };
+</style>
+```
+
+### forIllustrator(textWeb, textAi, postScriptFontName)
+Prepares a `text` element for opening in Adobe Illustrator (tested in CS6 and CS2014), with the correct font, weight, style, etc. It takes three arguments:
 - `textWeb` A text element that serves as a model.
 - `textAi` A text element that will be transformed.
 - `postScriptFontName` A PostScript font name that Illustrator will recognize.
