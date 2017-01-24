@@ -100,7 +100,8 @@ export default class SvgText {
 
   static writeStyle(selector, css, style) {
     const styleEl = style || SvgText.style || null;
-    if (styleEl) {
+    if (styleEl && SvgText.svg) {
+      selector = `${getSelectorNamespace(SvgText.svg)} ${selector}`;
       writeStyle(selector, css, styleEl);
     }
   }
@@ -136,13 +137,7 @@ function updateEnvironment(options) {
     options.svg.setAttribute('data-svgtext', getSvgUid());
   }
   if (!options.selectorNamespace || typeof options.selectorNamespace !== 'string') {
-    const svgId = options.svg.getAttribute('id');
-    if (svgId) {
-      options.selectorNamespace = `svg#${svgId}`;
-    } else {
-      const svgAttr = options.svg.getAttribute('data-svgtext');
-      options.selectorNamespace = `svg[data-svgtext="${svgAttr}"]`;
-    }
+    options.selectorNamespace = getSelectorNamespace(options.svg);
   }
   options.styleElement = options.styleElement || options.svg.querySelector('style');
   if (!options.styleElement) {
@@ -272,6 +267,16 @@ function verticalAlignText(text, options, attrs) {
 function textHeight(text, options, attrs) {
   return Math.max(attrs.fontSize, isPosNum(options.textPos.height) ?
     options.textPos.height : text.getBoundingClientRect().height);
+}
+
+function getSelectorNamespace(svg) {
+  const svgId = svg.getAttribute('id');
+  if (svgId) {
+    return `svg#${svgId}`;
+  } else {
+    const svgAttr = svg.getAttribute('data-svgtext');
+    return `svg[data-svgtext="${svgAttr}"]`;
+  }
 }
 
 // Each text field gets its own unique id so it styles can be namespaced to it

@@ -1,4 +1,4 @@
-/*! svg-text v0.4.3 */
+/*! svg-text v0.4.4 */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -211,7 +211,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    key: 'writeStyle',
 	    value: function writeStyle(selector, css, style) {
 	      var styleEl = style || SvgText.style || null;
-	      if (styleEl) {
+	      if (styleEl && SvgText.svg) {
+	        selector = getSelectorNamespace(SvgText.svg) + ' ' + selector;
 	        (0, _style.writeStyle)(selector, css, styleEl);
 	      }
 	    }
@@ -268,13 +269,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    options.svg.setAttribute('data-svgtext', getSvgUid());
 	  }
 	  if (!options.selectorNamespace || typeof options.selectorNamespace !== 'string') {
-	    var svgId = options.svg.getAttribute('id');
-	    if (svgId) {
-	      options.selectorNamespace = 'svg#' + svgId;
-	    } else {
-	      var svgAttr = options.svg.getAttribute('data-svgtext');
-	      options.selectorNamespace = 'svg[data-svgtext="' + svgAttr + '"]';
-	    }
+	    options.selectorNamespace = getSelectorNamespace(options.svg);
 	  }
 	  options.styleElement = options.styleElement || options.svg.querySelector('style');
 	  if (!options.styleElement) {
@@ -394,6 +389,16 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function textHeight(text, options, attrs) {
 	  return Math.max(attrs.fontSize, (0, _math.isPosNum)(options.textPos.height) ? options.textPos.height : text.getBoundingClientRect().height);
+	}
+
+	function getSelectorNamespace(svg) {
+	  var svgId = svg.getAttribute('id');
+	  if (svgId) {
+	    return 'svg#' + svgId;
+	  } else {
+	    var svgAttr = svg.getAttribute('data-svgtext');
+	    return 'svg[data-svgtext="' + svgAttr + '"]';
+	  }
 	}
 
 	// Each text field gets its own unique id so it styles can be namespaced to it

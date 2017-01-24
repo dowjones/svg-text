@@ -31,7 +31,7 @@
   </style>
 </head>
 <body>
-  <svg width="640" height="200">
+  <svg id="demo" width="640" height="200">
     <g class="container"/>
   </svg>
 
@@ -211,7 +211,7 @@
     $('form.options button.reset').on('click', resetOptions);
     restoreOptions();
     submitOptions();
-    // SvgText.writeStyle('svg text', { fill: 'red !important' });
+      // SvgText.writeStyle('text', { fontStyle: 'italic' });
   });
   </script>
 </body>
