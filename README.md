@@ -161,7 +161,7 @@ Read/write. The `style` element into which styles for SvgText instances will be 
 
 ### writeStyle(selector, css, style)
 Writes CSS styles into a `style` element. It takes two mandatory arguments and one options argument:
-- `selector` The CSS selector.
+- `selector` The CSS selector (appended to selector for the container `svg`).
 - `css` A JavaScript object of styles to write.
 - `style` The `style` element to write the styles into. If not defined, the value of `SvgText.style` will be used.
 Example:
@@ -171,7 +171,7 @@ SvgText.writeStyle('text#myText', { fill: 'red' });
 Result:
 ```css
 <style>
-text#myText { fill: red };
+svg[data-svgtext="1"] text#myText { fill: red };
 </style>
 ```
 
