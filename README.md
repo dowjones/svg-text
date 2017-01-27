@@ -292,6 +292,8 @@ Fix bug when writing className to the `text` element.
 For selectorNamespace, use `id` if present before `data-svgtext`.
 ### v0.4.4
 Add writeStyle static method.
+### v0.4.5
+Fix bug in setting SVG ID.
 
 ## Future plans
 - Add support for right-to-left languages.

@@ -290,7 +290,7 @@ function getSvgUid() {
   let maxId = 0;
   const svgEls = document.querySelectorAll('svg[data-svgtext]');
   for (let i = 0; i < svgEls.length; i++) {
-    const id = +svgEls.getAttribute('data-svgtext');
+    const id = +(svgEls[i].getAttribute('data-svgtext'));
     maxId = isNaN(id) ? maxId : Math.max(id, maxId);
   }
   return maxId + 1;

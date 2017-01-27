@@ -1,4 +1,4 @@
-/*! svg-text v0.4.4 */
+/*! svg-text v0.4.5 */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -412,7 +412,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var maxId = 0;
 	  var svgEls = document.querySelectorAll('svg[data-svgtext]');
 	  for (var i = 0; i < svgEls.length; i++) {
-	    var id = +svgEls.getAttribute('data-svgtext');
+	    var id = +svgEls[i].getAttribute('data-svgtext');
 	    maxId = isNaN(id) ? maxId : Math.max(id, maxId);
 	  }
 	  return maxId + 1;
