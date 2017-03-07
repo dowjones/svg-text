@@ -51,6 +51,11 @@ export default function render(text, options, lineHeight) {
     return 0;
   }
 
+  if (options.maxLines === 1 || (options.width === 'auto' && options.maxWidth === 'auto')) {
+    appendTspan(text, options.text, 0, 0);
+    return 1;
+  }
+
   const parsed = parse(options.text);
   chars = parsed.chars;
   tags = parsed.tags;

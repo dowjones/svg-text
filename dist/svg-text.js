@@ -1,4 +1,4 @@
-/*! svg-text v0.4.5 */
+/*! svg-text v0.4.6 */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -3153,6 +3153,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  maxHeight = (0, _math.autoNum)((0, _math.bestSize)(options.textPos, 'height'), Number.MAX_VALUE);
 	  if (maxHeight < lineHeight) {
 	    return 0;
+	  }
+
+	  if (options.maxLines === 1 || options.width === 'auto' && options.maxWidth === 'auto') {
+	    (0, _svg.appendTspan)(text, options.text, 0, 0);
+	    return 1;
 	  }
 
 	  var parsed = (0, _parse2.default)(options.text);

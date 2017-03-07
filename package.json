@@ -4,7 +4,8 @@
   "description": "Utilities for working with SVG, including SvgText for multiline text.",
   "main": "./dist/svg-text.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
