@@ -1,7 +1,7 @@
 import parse from './parse';
 import { autoNum, bestSize } from './math';
 import { textOverflow, isWordBound, isHyphen } from './text';
-import { appendTspan } from './svg';
+import { appendTspan, writeInnerHTML } from './svg';
 
 // Because text in Firefox is just slightly wider than in Chrome, causing
 // linebreaks to be inconsistent across browsers.
@@ -127,7 +127,7 @@ export default function render(text, options, lineHeight) {
       }
 
       lineStr = lineStr.replace(/^\s+|\s+$/g, '');
-      tspan.innerHTML = lineStr;
+      writeInnerHTML(tspan, lineStr);
       // Remove temporarily to prevent the width from getting whacky:
       text.removeChild(tspan);
       if (isFinalLine || !lineStr) {
@@ -190,7 +190,7 @@ function writeTmpStrF(c) {
 function createTspan(text, tmpStrF, lineHeight) {
   let tspan = tspans[tspanIndex];
   if (tspan) {
-    tspan.innerHTML = tmpStrF;
+    writeInnerHTML(tspan, tmpStrF);
   } else {
     tspan = tspans[tspanIndex] = appendTspan(text, tmpStrF, 0, height);
     height += lineHeight;

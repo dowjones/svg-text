@@ -1,4 +1,4 @@
-/*! svg-text v0.4.6 */
+/*! svg-text v0.5.0 */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -434,6 +434,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.createRect = createRect;
 	exports.appendTspan = appendTspan;
 	exports.createTspan = createTspan;
+	exports.writeInnerHTML = writeInnerHTML;
 
 	var _keys = __webpack_require__(3);
 
@@ -486,8 +487,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var y = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
 	  var tspan = createElement('tspan', { x: x, y: y });
-	  tspan.innerHTML = str;
+	  writeInnerHTML(tspan, str);
 	  return tspan;
+	}
+
+	/**
+	 * Because `innerHTML` does not work with SVG in older browsers.
+	 */
+	function writeInnerHTML(svgEl, content) {
+	  svgEl.innerHTML = content;
+	  var tempEl = document.createElement('div');
+	  tempEl.innerHTML = '<svg>' + content + '</svg>';
+	  Array.prototype.slice.call(svgEl.childNodes).forEach(function (el) {
+	    svgEl.removeChild(el);
+	  });
+	  Array.prototype.slice.call(tempEl.childNodes[0].childNodes).forEach(function (el) {
+	    svgEl.appendChild(el);
+	  });
+	  return svgEl;
 	}
 
 /***/ },
@@ -3081,8 +3098,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return '  ' + key + ': ' + style[key] + ';';
 	  });
 	  css.unshift('\n' + selector + ' {');
-	  css.push('}\n');
+	  css.push('}');
+	  css.unshift(getPreviousCss(styleElement));
 	  styleElement.innerHTML += css.join('\n');
+	}
+
+	function getPreviousCss(el) {
+	  var css = '';
+	  Array.prototype.slice.call(el.childNodes).forEach(function (el) {
+	    css += el.textContent;
+	  });
+	  return css;
 	}
 
 /***/ },
@@ -3230,7 +3256,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 
 	      lineStr = lineStr.replace(/^\s+|\s+$/g, '');
-	      _tspan.innerHTML = lineStr;
+	      (0, _svg.writeInnerHTML)(_tspan, lineStr);
 	      // Remove temporarily to prevent the width from getting whacky:
 	      text.removeChild(_tspan);
 	      if (isFinalLine || !lineStr) {
@@ -3289,7 +3315,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	function createTspan(text, tmpStrF, lineHeight) {
 	  var tspan = tspans[tspanIndex];
 	  if (tspan) {
-	    tspan.innerHTML = tmpStrF;
+	    (0, _svg.writeInnerHTML)(tspan, tmpStrF);
 	  } else {
 	    tspan = tspans[tspanIndex] = (0, _svg.appendTspan)(text, tmpStrF, 0, height);
 	    height += lineHeight;

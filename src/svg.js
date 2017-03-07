@@ -46,6 +46,22 @@ export function appendTspan(text, str, x, y) {
  */
 export function createTspan(str, x = 0, y = 0) {
   const tspan = createElement('tspan', { x, y });
-  tspan.innerHTML = str;
+  writeInnerHTML(tspan, str);
   return tspan;
+}
+
+/**
+ * Because `innerHTML` does not work with SVG in older browsers.
+ */
+export function writeInnerHTML(svgEl, content) {
+  svgEl.innerHTML = content;
+  const tempEl = document.createElement('div');
+  tempEl.innerHTML = `<svg>${content}</svg>`;
+  Array.prototype.slice.call(svgEl.childNodes).forEach(el => {
+    svgEl.removeChild(el);
+  });
+  Array.prototype.slice.call(tempEl.childNodes[0].childNodes).forEach(el => {
+    svgEl.appendChild(el);
+  });
+  return svgEl;
 }

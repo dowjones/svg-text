@@ -6,6 +6,15 @@ export function writeStyle(selector, textStyle, styleElement) {
     return `  ${key}: ${style[key]};`;
   });
   css.unshift(`\n${selector} {`);
-  css.push('}\n');
+  css.push('}');
+  css.unshift(getPreviousCss(styleElement));
   styleElement.innerHTML += css.join('\n');
+}
+
+function getPreviousCss(el) {
+  let css = '';
+  Array.prototype.slice.call(el.childNodes).forEach(el => {
+    css += el.textContent;
+  });
+  return css;
 }
