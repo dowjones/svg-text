@@ -38,14 +38,22 @@ var text = new SvgText(options);
 </script>
 ```
 
-## Compiling and testing
+## Compiling, runninh, testing
 Compiling and testing are both enabled from the command line. To compile:
 ```
 webpack
 ```
-or:
+or (to watch):
+```
+npm run watch
+```
+...which is the same as:
 ```
 webpack --watch
+```
+To run the demo:
+```
+npm run demo
 ```
 To run unit tests:
 ```
