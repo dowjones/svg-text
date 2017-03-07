@@ -110,6 +110,7 @@
   function renderText(options) {
     destroyText();
     // console.log('options:', options);
+    options.element = document.querySelector('svg g.container');
     text = new SvgText(options);
   }
 
@@ -126,7 +127,6 @@
 
   function submitOptions() {
     var options = {
-      element: document.querySelector('svg g.container'),
       id: 'hello',
       text: $('form.options textarea[name="text"]').val(),
       rect: {
@@ -152,6 +152,7 @@
         }
       }
     });
+    console.log(options);
     localStorage.setItem('options', JSON.stringify(options));
     renderText(options);
   }
