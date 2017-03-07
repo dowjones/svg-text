@@ -302,6 +302,10 @@ For selectorNamespace, use `id` if present before `data-svgtext`.
 Add writeStyle static method.
 ### v0.4.5
 Fix bug in setting SVG ID.
+### v0.5.0
+Write nodes instead of using `innerHTML`.
+### v0.5.1
+Fix demo on older Android devices.
 
 ## Future plans
 - Add support for right-to-left languages.
