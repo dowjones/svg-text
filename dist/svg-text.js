@@ -3395,13 +3395,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var tagNext = tags[i];
 	        if (tagNext.type === 'close' && _tag.name === tagNext.name) {
 	          _tag.close = tagNext;
-	          // tag.markupClose = tagNext.markup;
-	          // tags.splice(i, 1);
+	          break;
 	        }
 	      }
 	    } else {
-	        // tags.splice(n, 1);
-	      }
+	      // tags.splice(n, 1);
+	    }
 	    n++;
 	  }
 	}

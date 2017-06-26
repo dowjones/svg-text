@@ -57,8 +57,7 @@ function linkOpenToCloseTags(tags) {
         const tagNext = tags[i];
         if (tagNext.type === 'close' && tag.name === tagNext.name) {
           tag.close = tagNext;
-          // tag.markupClose = tagNext.markup;
-          // tags.splice(i, 1);
+          break;
         }
       }
     } else {

@@ -306,6 +306,8 @@ Fix bug in setting SVG ID.
 Write nodes instead of using `innerHTML`.
 ### v0.5.1
 Fix demo on older Android devices.
+### v0.5.2
+Solve bug: non-closing inline tags.
 
 ## Future plans
 - Add support for right-to-left languages.
