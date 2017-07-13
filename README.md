@@ -38,7 +38,7 @@ var text = new SvgText(options);
 </script>
 ```
 
-## Compiling, runninh, testing
+## Compiling, running, testing
 Compiling and testing are both enabled from the command line. To compile:
 ```
 webpack
