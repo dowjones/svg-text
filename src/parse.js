@@ -6,6 +6,10 @@ let quote;
 let status;
 
 export default function extractElements(text) {
+  // Enable linebreaks by passing <br> or \n.  Note that space is important.
+  text = text.split('<br>').join('\n');
+  text = text.split('\n').join('\n ');
+  
   const chars = text.split('');
   const tags = [];
   reset();
