@@ -76,6 +76,7 @@ export default function render(text, options, lineHeight) {
   // chars.some((c, index) => {
   while (index < chars.length) {
     const c = chars[index];
+    const isLineBreak = /\n/.test(c);
     charIndex = index;
     isFinalLine = tspanIndex + 1 === maxLines || height + lineHeight > maxHeight;
     charsRemain = !/^\s*$/.test(chars.slice(index).join(''));
@@ -85,7 +86,7 @@ export default function render(text, options, lineHeight) {
     const tspan = createTspan(text, tmpStrF, lineHeight);
 
     let complete = false;
-    if (textFits(text)) {
+    if (!isLineBreak && textFits(text)) {
       // Text with the test character fits, so now just exit if there are no
       // more characters to write.
       lineStr = tmpStr;
@@ -101,7 +102,7 @@ export default function render(text, options, lineHeight) {
         for (let i = 0; i < openTags.length; i++) {
           tmpStr += openTags[i].markup;
         }
-        if (lastBoundIndex > lineCharIndex) {
+        if (!isLineBreak && lastBoundIndex > lineCharIndex) {
           if (isHyphen(chars[lastBoundIndex])) {
             // Push the hyphen onto the last word.
             // lineStr = chars.slice(lineCharIndex, lastBoundIndex + 1).join('');
@@ -121,7 +122,7 @@ export default function render(text, options, lineHeight) {
         }
         if (isFinalLine) {
           lineStr = lineStr.replace(/^\s+$/, '');
-        } else {
+        } else if (!isLineBreak) {
           --index;
         }
       }
@@ -130,7 +131,7 @@ export default function render(text, options, lineHeight) {
       writeInnerHTML(tspan, lineStr);
       // Remove temporarily to prevent the width from getting whacky:
       text.removeChild(tspan);
-      if (isFinalLine || !lineStr) {
+      if (isFinalLine || (!lineStr && !charsRemain)) {
         complete = true;
       }
       workingLineStr = '';
